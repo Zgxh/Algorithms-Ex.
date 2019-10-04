@@ -1,82 +1,39 @@
-import java.util.HashSet;
-import java.util.List;
-import java.util.PriorityQueue;
-
-
 /*
  * @lc app=leetcode.cn id=312 lang=java
  *
  * [312] 戳气球
  */
 class Solution {
+
+    /**
+     * 解题思路：在i到j区间，用k表示[i+1, j-1]中最后戳破的那个气球，
+     * 用dp[i][j]表示戳破[i+1, j-1]所有气球的最大收益
+     * dp[i][j] = max{dp[i][k] + dp[k][j] + newNums[i]*newNums[k]*newNums[j]}
+     * 对于所有的k in [i+1, j-1]
+     * @param nums
+     * @return
+     */
     public int maxCoins(int[] nums) {
-        /**
-         * 每次让当前序列中的最小的数消失（除两头）
-         */
-        if (nums == null || nums.length == 0) {
-            return 0;
+        //把原数组两头各加个 1
+        int[] newNums = new int[nums.length + 2];
+        newNums[0] = 1;
+        newNums[newNums.length - 1] = 1;
+        for (int i = 1; i < newNums.length - 1; i++) {
+            newNums[i] = nums[i - 1];
         }
-        PriorityQueue<Node> minHeap = new PriorityQueue<Node> (Comparator.comparingInt(a -> a.value));
-        // 记录剩余的index
-        List<Integer> remainingIndex = new ArrayList<Integer>();
-        for (int i = 0; i < nums.length; i++) {
-            minHeap.add(new Node(nums[i], i));
-            remainingIndex.add(i);
-        }
-        // 记录当前边界
-        int left = 0; 
-        int right = nums.length - 1;
-        int result = 0;
-        while (minHeap.size() >= 3) {
-            Node firstMinNode = minHeap.poll();
-            int indexOfMin = firstMinNode.index;
-            // if (indexOfMin == left) {
-            //     Iterator<Node> iterator = minHeap.iterator();
-            //     iterator.next(); // 首个元素
-            //     Node node = iterator.next(); // 第二个元素
-            //     if (node.index == right) {
-            //         node = iterator.next(); // 第三个元素
-            //     }
-            //     indexOfMin = node.index;
-            // }
-            // if (indexOfMin == right) {
-            //     Iterator<Node> iterator = minHeap.iterator();
-            //     iterator.next(); 
-            //     Node node = iterator.next(); 
-            //     if (node.index == left) {
-            //         node = iterator.next();
-            //     }
-            //     indexOfMin = node.index;
-            // }
-            if (firstMinNode == left || firstMinNode == right) {
-                Node secondMinNode = minHeap.poll();
-                indexOfMin = secondMinNode.index;
-                if (secondMinNode == left || secondMinNode == right) {
-                    indexOfMin = minHeap.poll().index;
-                    minHeap.add(secondMinNode);
+        //dp[i][j]表示戳破[i+1, j-1]号气球的最大收益
+        int[][] dp = new int[newNums.length][newNums.length];
+        //len用来控制子序列长度，子序列长度从3开始，一直到整个序列长度
+        for (int len = 2; len < newNums.length; len++) {
+            for (int i = 0; i < newNums.length - len; i++) {
+                int j = i + len;
+                for (int k = i + 1; k < j; k++) {
+                    dp[i][j] = Math.max(dp[i][j], dp[i][k] + dp[k][j] + 
+                                        newNums[i] * newNums[k] * newNums[j]);
                 }
-                minHeap.add(firstMinNode);
             }
-            result += nums[indexOfMin - 1] * nums[indexOfMin] * nums[indexOfMin + 1];
-            minHeap.remove();
-            remainingIndex.remove(Integer.valueOf(indexOfMin));
         }
-        if (minHeap.size() == 2) {
-            result += nums[left] * nums[right];
-            result += Math.max(nums[left], nums[right]);
-        }
-        if (minHeap.size() == 1) {
-            result += nums[0];
-        }
-        return result;
-    }
-    public class Node {
-        int value;
-        int index;
-        Node (int value, int index) {
-            this.value = value;
-            this.index = index;
-        }
+        return dp[0][newNums.length - 1];
     }
 }
 
