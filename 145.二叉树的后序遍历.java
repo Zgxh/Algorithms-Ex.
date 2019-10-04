@@ -18,8 +18,8 @@ import java.util.Stack;
 
 class Solution {
     /**
-     * 利用栈和链表实现二叉树的非递归遍历。
-     * @param root
+     * 利用栈和链表实现二叉树的非递归【后序遍历】。
+     * @param root 
      * @return
      */
     public List<Integer> postorderTraversal(TreeNode root) {

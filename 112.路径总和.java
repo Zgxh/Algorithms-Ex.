@@ -1,6 +1,3 @@
-import java.util.*;
-
-
 /*
  * @lc app=leetcode.cn id=112 lang=java
  *
@@ -16,45 +13,23 @@ import java.util.*;
  * }
  */
 class Solution {
+
+    /**
+     * 基本思想：递归遍历这个树，每经过一个节点sum就减去这个节点的val，如果
+     * 到了叶子节点，并且此时的sum为0的话，就满足要求。
+     * @param root
+     * @param sum
+     * @return
+     */
     public boolean hasPathSum(TreeNode root, int sum) {
         if (root == null) {
             return false;
         }
-        List<TreeNode> stack = new ArrayList<>();
-        int current = 0;
-        while (root != null || !stack.isEmpty()) {
-            if (root != null) {
-                stack.add(root);
-                current += root.val;
-                if (root.left == null && root.right == null) {
-                    if (current == sum) {
-                        return true;
-                    }
-                }
-                root = root.left;
-            }
-            else {
-                root = stack.get(stack.size() - 1);
-                if (root.right == null) {
-                    stack.remove(stack.size() - 1);
-                    if (stack.isEmpty()) {
-                        break;
-                    }
-                    root = stack.get(stack.size() - 1).right;
-                }
-                else {
-                    root = root.right;
-                }
-            }
+        sum -= root.val;
+        if (root.left == null && root.right == null) {
+            return sum == 0;
         }
-        return false;
+        return hasPathSum(root.left, sum) || hasPathSum(root.right, sum);
     }
-    // public int getSum(List<TreeNode> stack) {
-    //     int sum = 0;
-    //     for (TreeNode node : stack) {
-    //         sum += node.val;
-    //     }
-    //     return sum;
-    // }
 }
 
