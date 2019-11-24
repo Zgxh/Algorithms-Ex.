@@ -62,4 +62,26 @@ class Solution {
         return true;
     }
 }
+
+class Solution {
+    /**
+     * 思路：利用StringBuilder，剔除非字母和数字字符后生成sb串，判断sb和sb的倒序是否一致。
+     * @param s
+     * @return
+     */
+    public boolean isPalindrome(String s) {
+        if (s == null) {
+            return true;
+        }
+        s = s.toLowerCase();
+        int len = s.length();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < len; i++) {
+            if (s.charAt(i) >= 'a' && s.charAt(i) <= 'z' || s.charAt(i) >= '0' && s.charAt(i) <= '9') {
+                sb.append(s.charAt(i));
+            }
+        }
+        return sb.toString().equals(sb.reverse().toString());
+    }
+}
 //leetcode submit region end(Prohibit modification and deletion)
