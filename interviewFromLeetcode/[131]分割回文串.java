@@ -25,6 +25,7 @@ class Solution {
     }
 
     public void recursion(String s, List<String> ls, int begin) {
+        // 每当数组越界了，说明这一趟s遍历完了，就把当前的ls加入result
         if (begin == s.length()) {
             result.add(new ArrayList<>(ls));
             return;
@@ -33,6 +34,7 @@ class Solution {
             if (isPalindrome(s, begin, i)) {
                 ls.add(s.substring(begin, i + 1));
                 recursion(s, ls, i + 1);
+                // 把之前加进去的弹出来，避免与下一个结果重复
                 ls.remove(ls.size() - 1);
             }
         }
