@@ -29,9 +29,9 @@ class Solution {
             return;
         }
         int i = 0;
-        for (int j = 0; j < nums.length; j++) {
-            if (nums[j] != 0) {
-                nums[i++] = nums[j];
+        for (int num : nums) {
+            if (num != 0) {
+                nums[i++] = num;
             }
         }
         while (i < nums.length) {
