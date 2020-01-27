@@ -15,8 +15,8 @@ public class Question_5 {
      * 弹出时，若stack2不空，直接弹出stack2栈顶；
      *        若stack2空，则先将stack1全部元素逐个压入stack2，再弹出stack2栈顶。
      */
-    LinkedList<Integer> stack1 = new LinkedList<Integer>();
-    LinkedList<Integer> stack2 = new LinkedList<Integer>();
+    LinkedList<Integer> stack1 = new LinkedList<>();
+    LinkedList<Integer> stack2 = new LinkedList<>();
 
     public void push(int node) {
         stack1.push(node);
