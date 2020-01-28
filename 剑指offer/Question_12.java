@@ -26,10 +26,7 @@ public class Question_12 {
             flag = true;
         }
         double result = getPower(base, exponent);
-        if (flag) {
-            return 1 / result;
-        }
-        return result;
+        return flag ? 1 / result : result;
     }
 
     /**
@@ -43,9 +40,6 @@ public class Question_12 {
             return base;
         }
         double temp = getPower(base, exponent >> 1);
-        if (exponent % 2 == 1) {
-            return temp * temp * base;
-        }
-        return temp * temp;
+        return exponent % 2 == 1 ? temp * temp * base : temp * temp;
     }
 }
