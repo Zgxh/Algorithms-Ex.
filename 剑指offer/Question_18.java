@@ -11,7 +11,10 @@ import java.util.LinkedList;
 public class Question_18 {
 
     /**
-     * 思路：利用队列进行二叉树的层次遍历。过程中交换结点的左右孩子。
+     * 两个思路：
+     * （1）利用队列进行二叉树的层次遍历。过程中交换结点的左右孩子。
+     * （2）递归交换左右结点。
+     * 下面的代码实现（1）。
      * @param root
      */
     public void Mirror(TreeNode root) {
@@ -34,6 +37,21 @@ public class Question_18 {
             }
         }
     }
+
+    /**
+     * 递归的写法
+     * @param root
+     */
+//    public void Mirror(TreeNode root) {
+//        if (root == null) {
+//            return;
+//        }
+//        TreeNode temp = root.left;
+//        root.left = root.right;
+//        root.right = temp;
+//        Mirror(root.left);
+//        Mirror(root.right);
+//    }
 
     /**
      * Definition of tree node.
