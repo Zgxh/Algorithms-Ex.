@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.TreeSet;
 
 /**
  * @author Yu Yang
@@ -7,13 +7,8 @@ import java.util.ArrayList;
 public class Test {
 
     public static void main(String[] args) {
-        Question_24 q = new Question_24();
-        Question_24.TreeNode root = q.new TreeNode(10);
-        root.left = q.new TreeNode(5);
-        root.right = q.new TreeNode(12);
-        root.left.left = q.new TreeNode(4);
-        root.left.right = q.new TreeNode(7);
-        ArrayList result = q.FindPath(root, 22);
-        System.out.println(result);
+        TreeSet<Character> set = new TreeSet<>();
+        set.add('a');
+        System.out.println(set.contains('a'));
     }
 }
