@@ -18,7 +18,7 @@ public class Question_34 {
         if (str == null || str.length() == 0) {
             return -1;
         }
-        int[] count = new int[256];
+        int[] count = new int[256]; // 通过字符的值进行定位，相当于hash
         for (int i = 0; i < str.length(); i++) {
             count[str.charAt(i)]++;
         }
