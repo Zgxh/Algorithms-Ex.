@@ -1,5 +1,4 @@
 import java.util.Arrays;
-import java.util.Comparator;
 
 /**
  * 剑指offer第32题：把数组排成最小的数
@@ -20,7 +19,8 @@ public class Question_32 {
     public String PrintMinNumber(int[] numbers) {
         // 先把int[]数组转成String[]数组，为了能用自定义比较器的Arrays.sort()
         String[] strs = Arrays.stream(numbers).boxed().map(a -> Integer.toString(a)).toArray(String[]::new);
-        Arrays.sort(strs, new stringComparator());
+//        Arrays.sort(strs, new stringComparator());
+        Arrays.sort(strs, ((o1, o2) -> {return (o1 + o2).compareTo(o2 + o1);})); // 使用lambda表达式实现字符串的Comparator
         StringBuilder sb = new StringBuilder();
         for (String str : strs) {
             sb.append(str);
@@ -28,20 +28,20 @@ public class Question_32 {
         return sb.toString();
     }
 
-    /**
-     * 自定义的字符串比较器
-     */
-    public class stringComparator implements Comparator<String> {
-        @Override
-        public int compare(String o1, String o2) {
-            int combine1 = Integer.valueOf(o1 + o2);
-            int combine2 = Integer.valueOf(o2 + o1);
-            if (combine1 == combine2) {
-                return 0;
-            }
-            return combine1 > combine2 ? 1 : -1;
-        }
-    }
+//    /**
+//     * 自定义的字符串比较器
+//     */
+//    public class stringComparator implements Comparator<String> {
+//        @Override
+//        public int compare(String o1, String o2) {
+//            int combine1 = Integer.valueOf(o1 + o2);
+//            int combine2 = Integer.valueOf(o2 + o1);
+//            if (combine1 == combine2) {
+//                return 0;
+//            }
+//            return combine1 > combine2 ? 1 : -1;
+//        }
+//    }
 
     /**
      * 思路2：直接对原数组进行冒泡排序，时间消耗比思路1少
@@ -56,6 +56,7 @@ public class Question_32 {
         for (int i = 0; i < numbers.length; i++) {
             for (int j = 0; j < numbers.length - 1 - i; j++) {
                 // long占64位，int 32位，避免越界
+                // 也可以用上面的那种字符串比较的方式，先把两个字符串拼接，然后再比较，同样能避免int越界
                 long combine1 = Long.parseLong(numbers[j] + "" + numbers[j + 1]);
                 long combine2 = Long.parseLong(numbers[j + 1] + "" + numbers[j]);
                 if (combine1 > combine2) {
