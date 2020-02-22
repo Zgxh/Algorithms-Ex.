@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * @author Yu Yang
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Test {
 
     public static void main(String[] args) {
-        ArrayList<Integer> result = new ArrayList<>();
-        System.out.println(result == null);
+        HashSet<Integer> set = new HashSet<>();
+        System.out.println(set.contains(1));
     }
 }
