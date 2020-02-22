@@ -15,7 +15,7 @@ public class Question_45 {
     /**
      * 思路：利用set的特点，存放数组中的数字。
      * （1）如果除了大小王外，其他数字重复，则set.size() + numOfZero一定不是5。
-     * （2）利用treeset的排序特点，可以方便地确定最大（last）最小值（first）。
+     * （2）treeset这里采用了默认比较器（数字自然顺序），可以方便地确定最大（last）、最小值（first）。
      * @param numbers
      * @return
      */
