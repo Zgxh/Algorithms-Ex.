@@ -19,6 +19,9 @@ public class Question_51 {
      * @return
      */
     public int[] multiply(int[] A) {
+        if (A == null || A.length == 0) {
+            return new int[0];
+        }
         int len = A.length;
         int[] left = new int[len];
         int[] right = new int[len];
