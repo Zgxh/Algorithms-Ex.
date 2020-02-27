@@ -10,7 +10,7 @@
 public class Question_58 {
 
     /**
-     * 思路：递归写法。
+     * 思路：递归写法。有的题解里的递归写麻烦了。
      * @param pRoot
      * @return
      */
