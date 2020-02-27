@@ -5,7 +5,6 @@
 public class Test {
 
     public static void main(String[] args) {
-        char a = '1';
-        System.out.println(a > '9' || a < '0');
+        System.out.println(null == null);
     }
 }
