@@ -5,6 +5,8 @@
 public class Test {
 
     public static void main(String[] args) {
-        System.out.println(null == null);
+        String[] a = new String[2];
+        a[0] = "@";
+        System.out.println(a[0] == "@");
     }
 }
