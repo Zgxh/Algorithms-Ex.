@@ -5,8 +5,7 @@
 public class Test {
 
     public static void main(String[] args) {
-        String[] a = new String[2];
-        a[0] = "@";
-        System.out.println(a[0] == "@");
+        boolean[] a = new boolean[3];
+        System.out.println(a[1]);
     }
 }
