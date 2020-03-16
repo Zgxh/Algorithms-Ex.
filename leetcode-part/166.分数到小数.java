@@ -1,7 +1,3 @@
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
 /*
  * @lc app=leetcode.cn id=166 lang=java
  *

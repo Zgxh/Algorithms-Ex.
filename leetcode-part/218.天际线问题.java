@@ -1,5 +1,5 @@
-import java.util.PriorityQueue;
 import java.util.Comparator;
+import java.util.PriorityQueue;
 
 /*
  * @lc app=leetcode.cn id=218 lang=java
