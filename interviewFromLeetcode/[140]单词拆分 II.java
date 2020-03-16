@@ -50,7 +50,8 @@ class Solution {
 
     /**
      * 思路：以139题为基础，先确定dp数组，dp[i]代表s的第i个位置之前的子串是否能被分成wordDict中的串集。
-     * 然后采用递归树，
+     * 然后采用递归树，每次取后缀，若匹配成功，再判断前边的。
+     * 整体若匹配成功还要匹配子串。
      */
 
     private List<String> result = new LinkedList<>();
@@ -85,7 +86,7 @@ class Solution {
     }
 
     private void dfs(String s, int end, boolean[] dp) {
-        if (wordSet.contains(s.substring(0, end + 1))) {
+        if (wordSet.contains(s.substring(0, end + 1))) { // 先判断整体
             words.addFirst(s.substring(0, end + 1));
             StringBuilder sb = new StringBuilder();
             for (String word : words) {
@@ -95,12 +96,12 @@ class Solution {
             result.add(sb.toString());
             words.removeFirst();
         }
-        for (int i = 1; i < end; i++) {
+        for (int i = 1; i <= end; i++) { // 再分开判断
             if (dp[i]) {
                 String suffix = s.substring(i, end + 1);
                 if (wordSet.contains(suffix)) {
                     words.addFirst(suffix);
-                    dfs(s, i - 1, dp);
+                    dfs(s, i - 1, dp); // 递归
                     words.removeFirst();
                 }
             }
