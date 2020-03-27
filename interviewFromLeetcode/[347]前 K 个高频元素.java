@@ -20,8 +20,6 @@
 // Related Topics 堆 哈希表
 
 
-import java.util.*;
-
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 
