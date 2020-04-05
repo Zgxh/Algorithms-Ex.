@@ -26,8 +26,6 @@
 // Related Topics 设计
 
 
-import java.util.*;
-
 //leetcode submit region begin(Prohibit modification and deletion)
 class LFUCache {
 
