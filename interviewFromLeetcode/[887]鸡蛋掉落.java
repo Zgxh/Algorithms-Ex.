@@ -54,7 +54,8 @@
 //class Solution {
 //    public int superEggDrop(int K, int N) {
 //
-//        int[][] dp = new int[K + 1][N + 1];
+//        int[][] dp = new int[K + 1][N + 1]; // dp[i][j]代表i个鸡蛋，j层楼的结果
+//
 //        for (int i = 1; i <= N; i++) {
 //            dp[0][i] = 0; // no egg
 //            dp[1][i] = i; // one egg, need traversal: N
@@ -62,10 +63,11 @@
 //        for (int i = 1; i <= K; i++) {
 //            dp[i][0] = 0; // zero height
 //        }
+//
 //        for (int k = 2; k <= K; k++) {
 //            for (int n = 1; n <= N; n++) {
 //                int min = n;
-//                for (int i = 1; i <= n; i++) {
+//                for (int i = 1; i <= n; i++) { // 碎了就少个蛋，然后在i-1层中继续摔；没碎就向上走，还是k个蛋，在上面的n-i个中试，因为在i层摔了一次，所以+1
 //                    min = Math.min(min, 1 + Math.max(dp[k - 1][i - 1], dp[k][n - i]));
 //                }
 //                dp[k][n] = min;
@@ -75,16 +77,15 @@
 //    }
 //}
 class Solution {
-    Map<Integer, Integer> cache = new HashMap<>(); // 设置缓存，避免重复计算
 
     /**
      * 思想:当在某层楼x上扔鸡蛋时，两种情况：1）碎。2）不碎。若碎，变成dp(K-1, x-1);
      * 若不碎，变成dp(K, N-x)。所以最坏情况次数即为 1 + max(dp(K-1, x-1), dp(K, N-x)).
      * 遍历所有的x，要求最坏情况下最少的移动次数，即找所有最坏情况的min值。
-     * @param K
-     * @param N
-     * @return
      */
+
+    Map<Integer, Integer> cache = new HashMap<>(); // 设置缓存，避免重复计算
+
     public int superEggDrop(int K, int N) {
         if (N == 0) {
             return 0;
@@ -118,6 +119,7 @@ class Solution {
                 Math.max(superEggDrop(K - 1, high - 1), superEggDrop(K, N - high))
         );
         cache.put(key, minimum);
+
         return cache.get(key);
     }
 }
