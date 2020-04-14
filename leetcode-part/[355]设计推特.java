@@ -40,8 +40,6 @@
 // Related Topics 堆 设计 哈希表
 
 
-import java.util.*;
-
 //leetcode submit region begin(Prohibit modification and deletion)
 class Twitter {
 
