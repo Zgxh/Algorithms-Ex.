@@ -36,8 +36,6 @@
 // Related Topics 设计 数组 哈希表
 
 
-import java.util.*;
-
 //leetcode submit region begin(Prohibit modification and deletion)
 class RandomizedSet {
 
