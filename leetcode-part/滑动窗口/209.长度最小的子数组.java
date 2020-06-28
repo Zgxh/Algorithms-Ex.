@@ -11,8 +11,8 @@ class Solution {
         int len = nums.length;
         if (len == 0) 
             return 0;
-        int left = 0;
-        int right = -1; //滑块左右端点
+        int left = 0; // 滑块左右端点
+        int right = -1;
         int sum = 0;
         int minLength = Integer.MAX_VALUE;
         for (int i = 0; i < len; i++) {
@@ -23,9 +23,11 @@ class Solution {
             }
             while (sum >= s) {
                 right = i;
-                minLength = right - left + 1 < minLength ? 
-                            right - left + 1 : minLength;
-                sum -= nums[left++]; //如果sum大于s，滑块右移一位
+                int curLength = right - left + 1;
+                if (minLength > curLength) {
+                    minLength = curLength;
+                }
+                sum -= nums[left++];
             }
         }
         return minLength == Integer.MAX_VALUE ? 0 : minLength;
