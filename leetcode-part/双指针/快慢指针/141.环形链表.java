@@ -15,11 +15,14 @@
  * }
  */
 public class Solution {
+
+    /**
+     * 快慢指针法。
+     * 快指针的移动速度是慢指针的二倍。
+     * 如果快指针遇到null了，则没有环；
+     * 如果快指针追上慢指针了，说明有环。
+     */
     public boolean hasCycle(ListNode head) {
-        /**
-         * 设置快慢指针。快指针的移动速度是慢指针的二倍。
-         * 如果快指针遇到null了，则没有环；如果快指针追上慢指针了，说明有环。
-         */
         if (head == null) {
             return false;
         }
