@@ -36,51 +36,92 @@ import javax.swing.tree.TreeNode;
 class Solution {
 
     /**
-     * 思路：递归
-     *
-     * 利用中序遍历和后序遍历的特点来分割inorder数组和postorder数组。
-     * 然后递归地建树。
+     * 写法1：推荐
+     * 根据后序遍历的特点，复现后序遍历的过程，并用 postorderRootIndex 来记录
+     * 后序遍历结点的位置。
+     * 后序遍历的特点是：在访问该结点前，总是先访问该节点的右子树的最右结点。
      */
+
     private int[] inorder;
     private int[] postorder;
+    private int postorderRootIndex;
 
     public TreeNode buildTree(int[] inorder, int[] postorder) {
-        if (inorder.length == 0) {
-            return null;
-        }
         this.inorder = inorder;
         this.postorder = postorder;
-        TreeNode root = buildTreeHelp(0, inorder.length - 1, 0, postorder.length - 1);
+        this.postorderRootIndex = postorder.length - 1;
 
-        return root;
+        return buildTreeHelp(0, inorder.length - 1);
     }
 
-    private TreeNode buildTreeHelp(int inLeft, int inRight, int postLeft, int postRight) {
-        // if (inLeft < inRight) {
-        //     return null;
-        // }
-        if (inLeft == inRight) {
-            return new TreeNode(inorder[inLeft]);
+    private TreeNode buildTreeHelp(int left, int right) {
+        if (left > right || postorderRootIndex < 0) {
+            return null;
         }
-        int inorderRootIndex = findInorderRoot(inLeft, inRight, postorder[postRight]);
-        TreeNode root = new TreeNode(postorder[postRight]); // root
-        if (inorderRootIndex > inLeft) {
-            root.left = buildTreeHelp(inLeft, inorderRootIndex - 1, postLeft, postLeft + inorderRootIndex - 1 - inLeft);
-        }
-        if (inorderRootIndex < inRight) {
-            root.right = buildTreeHelp(inorderRootIndex + 1, inRight, postRight - 1 - (inRight - inorderRootIndex - 1), postRight - 1);
-        }
+        int rootValue = postorder[postorderRootIndex];
+        TreeNode root = new TreeNode(rootValue);
+        int inorderRootIndex = findInorderRoot(left, right, rootValue);
+        postorderRootIndex--;
+        root.right = buildTreeHelp(inorderRootIndex + 1, right);
+        root.left = buildTreeHelp(left, inorderRootIndex - 1);
 
         return root;
     }
 
     private int findInorderRoot(int left, int right, int target) {
-        for (int i = left; i <= right; i++) {
-            if (inorder[i] == target) {
-                return i;
+        while (left < right) {
+            if (inorder[left] == target) {
+                return left;
             }
+            left++;
         }
+
         return left;
     }
+
+//    /**
+//     * 写法2.
+//     */
+//    private int[] inorder;
+//    private int[] postorder;
+//
+//    public TreeNode buildTree(int[] inorder, int[] postorder) {
+//        if (inorder.length == 0) {
+//            return null;
+//        }
+//        this.inorder = inorder;
+//        this.postorder = postorder;
+//        TreeNode root = buildTreeHelp(0, inorder.length - 1, 0, postorder.length - 1);
+//
+//        return root;
+//    }
+//
+//    private TreeNode buildTreeHelp(int inLeft, int inRight, int postLeft, int postRight) {
+//        // if (inLeft < inRight) {
+//        //     return null;
+//        // }
+//        if (inLeft == inRight) {
+//            return new TreeNode(inorder[inLeft]);
+//        }
+//        int inorderRootIndex = findInorderRoot(inLeft, inRight, postorder[postRight]);
+//        TreeNode root = new TreeNode(postorder[postRight]); // root
+//        if (inorderRootIndex > inLeft) {
+//            root.left = buildTreeHelp(inLeft, inorderRootIndex - 1, postLeft, postLeft + inorderRootIndex - 1 - inLeft);
+//        }
+//        if (inorderRootIndex < inRight) {
+//            root.right = buildTreeHelp(inorderRootIndex + 1, inRight, postRight - 1 - (inRight - inorderRootIndex - 1), postRight - 1);
+//        }
+//
+//        return root;
+//    }
+//
+//    private int findInorderRoot(int left, int right, int target) {
+//        for (int i = left; i <= right; i++) {
+//            if (inorder[i] == target) {
+//                return i;
+//            }
+//        }
+//        return left;
+//    }
 }
 //leetcode submit region end(Prohibit modification and deletion)

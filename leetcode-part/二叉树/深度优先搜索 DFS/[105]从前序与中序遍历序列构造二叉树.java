@@ -36,85 +36,86 @@ import javax.swing.tree.TreeNode;
 class Solution {
 
     /**
-     * 写法1.。
+     * 写法1。【推荐】
+     * 根据前序遍历的特点，然后复现前序遍历的过程，并用 preorderRootIndex 来记录
+     * 前序遍历的结点的位置。
      */
+     private int[] preorder;
+     private int[] inorder;
+     private int preorderRootIndex = 0;
 
-    // private int[] preorder;
-    // private int[] inorder;
-    // private int preorderRootIndex = 0;
+     public TreeNode buildTree(int[] preorder, int[] inorder) {
+         this.preorder = preorder;
+         this.inorder = inorder;
+         return buildTreeHelp(0, preorder.length - 1);
+     }
 
-    // public TreeNode buildTree(int[] preorder, int[] inorder) {
-    //     this.preorder = preorder;
-    //     this.inorder = inorder;
-    //     return buildTreeHelp(0, preorder.length);
-    // }
+     private TreeNode buildTreeHelp(int left, int right) {
+         if (left > right || preorderRootIndex >= preorder.length) {
+             return null;
+         }
+         int rootValue = preorder[preorderRootIndex];
+         TreeNode root = new TreeNode(rootValue);
+         int inorderRootIndex = findInorderRoot(left, right, rootValue);
+         preorderRootIndex++;
+         root.left = buildTreeHelp(left, inorderRootIndex - 1);
+         root.right = buildTreeHelp(inorderRootIndex + 1, right);
 
-    // private TreeNode buildTreeHelp(int left, int right) {
-    //     if (left > right || preorderRootIndex >= preorder.length) {
-    //         return null;
-    //     }
-    //     int rootValue = preorder[preorderRootIndex];
-    //     TreeNode root = new TreeNode(rootValue);
-    //     int inorderRootIndex = findInorderRoot(left, right, rootValue);
-    //     preorderRootIndex++;
-    //     root.left = buildTreeHelp(left, inorderRootIndex - 1);
-    //     root.right = buildTreeHelp(inorderRootIndex + 1, right);
+         return root;
+     }
 
-    //     return root;
-    // }
+     private int findInorderRoot(int left, int right, int target) {
+         while (left < right) {
+             if (target == inorder[left]) {
+                 return left;
+             }
+             left++;
+         }
 
-    // private int findInorderRoot(int left, int right, int target) {
-    //     while (left < right) {
-    //         if (target == inorder[left]) {
-    //             return left;
-    //         }
-    //         left++;
-    //     }
-
-    //     return left;
-    // }
+         return left;
+     }
 
     /**
      * 写法2
       */
-    private int[] preorder;
-    private int[] inorder;
-
-    public TreeNode buildTree(int[] preorder, int[] inorder) {
-        if (preorder.length == 0) {
-            return null;
-        }
-        this.preorder = preorder;
-        this.inorder = inorder;
-        TreeNode root = buildTreeHelp(0, preorder.length - 1, 0, inorder.length - 1);
-
-        return root;
-    }
-
-    private TreeNode buildTreeHelp(int preLeft, int preRight, int inLeft, int inRight) {
-        if (preLeft == preRight) {
-            return new TreeNode(preorder[preLeft]);
-        }
-        TreeNode root = new TreeNode(preorder[preLeft]);
-        int inorderRootIndex = findInorderRoot(inLeft, inRight, preorder[preLeft]);
-        if (inorderRootIndex > inLeft) {
-            root.left = buildTreeHelp(preLeft + 1, preLeft + 1 + (inorderRootIndex - 1 - inLeft), inLeft, inorderRootIndex - 1);
-        }
-        if (inorderRootIndex < inRight) {
-            root.right = buildTreeHelp(preRight - (inRight - inorderRootIndex - 1), preRight, inorderRootIndex + 1, inRight);
-        }
-
-        return root;
-    }
-
-    private int findInorderRoot(int left, int right, int target) {
-        for (int i = left; i <= right; i++) {
-            if (inorder[i] == target) {
-                return i;
-            }
-        }
-
-        return left;
-    }
+//    private int[] preorder;
+//    private int[] inorder;
+//
+//    public TreeNode buildTree(int[] preorder, int[] inorder) {
+//        if (preorder.length == 0) {
+//            return null;
+//        }
+//        this.preorder = preorder;
+//        this.inorder = inorder;
+//        TreeNode root = buildTreeHelp(0, preorder.length - 1, 0, inorder.length - 1);
+//
+//        return root;
+//    }
+//
+//    private TreeNode buildTreeHelp(int preLeft, int preRight, int inLeft, int inRight) {
+//        if (preLeft == preRight) {
+//            return new TreeNode(preorder[preLeft]);
+//        }
+//        TreeNode root = new TreeNode(preorder[preLeft]);
+//        int inorderRootIndex = findInorderRoot(inLeft, inRight, preorder[preLeft]);
+//        if (inorderRootIndex > inLeft) {
+//            root.left = buildTreeHelp(preLeft + 1, preLeft + 1 + (inorderRootIndex - 1 - inLeft), inLeft, inorderRootIndex - 1);
+//        }
+//        if (inorderRootIndex < inRight) {
+//            root.right = buildTreeHelp(preRight - (inRight - inorderRootIndex - 1), preRight, inorderRootIndex + 1, inRight);
+//        }
+//
+//        return root;
+//    }
+//
+//    private int findInorderRoot(int left, int right, int target) {
+//        for (int i = left; i <= right; i++) {
+//            if (inorder[i] == target) {
+//                return i;
+//            }
+//        }
+//
+//        return left;
+//    }
 }
 //leetcode submit region end(Prohibit modification and deletion)
