@@ -26,40 +26,39 @@ class Solution {
      * 思路：经典的回溯题目。
      */
 
+    private List<List<Integer>> result;
     private int[] nums;
-    private boolean[] visited;
-    private List<List<Integer>> result = new ArrayList();
     private int len;
+    private boolean[] visited;
 
     public List<List<Integer>> permute(int[] nums) {
+        this.result = new ArrayList();
         if (nums == null || nums.length == 0) {
             return result;
         }
         this.nums = nums;
         this.len = nums.length;
         this.visited = new boolean[len];
-        for (int i = 0; i < len; i++) {
-            recursion(new ArrayList(), i, 1);
-        }
+        backtracking(new ArrayList(), 0);
 
         return result;
     }
 
-    private void recursion(List<Integer> list, int i, int count) {
-        list.add(nums[i]);
-        if (count == len) {
+    private void backtracking(List<Integer> list, int index) {
+        if (index == len) {
             result.add(new ArrayList(list));
-            list.remove(count - 1);
             return;
         }
-        visited[i] = true;
-        for (int j = 0; j < len; j++) {
-            if (!visited[j]) {
-                recursion(list, j, count + 1);
+        for (int i = 0; i < len; i++) {
+            if (visited[i]) {
+                continue;
             }
+            list.add(nums[i]);
+            visited[i] = true;
+            backtracking(list, index + 1);
+            visited[i] = false;
+            list.remove(list.size() - 1);
         }
-        visited[i] = false;
-        list.remove(count - 1);
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
