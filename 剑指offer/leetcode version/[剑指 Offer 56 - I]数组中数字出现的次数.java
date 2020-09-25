@@ -18,45 +18,37 @@
 // 限制： 
 //
 // 
-// 2 <= nums <= 10000 
+// 2 <= nums.length <= 10000 
 // 
 //
 // 
-//
+// 👍 227 👎 0
 
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-
-    /**
-     * 思路类似于数组中一个出现一次的数字类似。使用异或。
-     * 先异或一遍得到所有数字异或后的结果，然后从右至左找到第一个为1的位。
-     * 目标的两个数字在该位必定不同，以此来区分这两个数字。
-     * @param nums
-     * @return
-     */
     public int[] singleNumbers(int[] nums) {
-        int judge = 0;
+        // 1. 求两个不一样的数字的异或值
+        int xor = 0;
         for (int num : nums) {
-            judge ^= num;
+            xor ^= num;
         }
-
-        // 找到第一个为1的位
-        int mask = 1;
-        while ((judge & mask) == 0) {
-            mask <<= 1;
+        // 2. 根据这个异或值找到a和b不同的位,即异或值为1的位，该位上a和b的位值不同
+        int bit = 1;
+        while ((xor & bit) == 0) {
+            bit <<= 1;
         }
-
-        int num1 = 0, num2 = 0;
+        // 3. 按该位把所有数字分成两组，分别异或得到a和b
+        int a = 0, b = 0;
         for (int num : nums) {
-            if ((mask & num) == 0) {
-                num1 ^= num;
+            if ((num & bit) == 0) {
+                a ^= num;
             } else {
-                num2 ^= num;
+                b ^= num;
             }
         }
 
-        return new int[]{num1, num2};
+        return new int[]{a, b};
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
