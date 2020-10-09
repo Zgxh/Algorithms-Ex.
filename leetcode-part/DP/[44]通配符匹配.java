@@ -61,23 +61,29 @@
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 
-    // DP 解法
+    // // DP 解法
     public boolean isMatch(String s, String p) {
         int sLen = s.length(), pLen = p.length();
-        boolean[][] dp = new boolean[sLen + 1][pLen + 1];
+        boolean[][] dp = new boolean[sLen + 1][pLen + 1]; // dp数组中的i和j对应字符串index的i-1,j-1
+        // 初始化当s的子串长度为0的时候
         dp[0][0] = true;
-        for (int i = 1; i <= pLen; ++i) {
-            if (p.charAt(i - 1) == '*') {
+        for (int i = 1; i <= pLen; i++) {
+            if (p.charAt(i - 1) == '*') { // 对于s的index = 0时，只有p前面全是*时才会是
                 dp[0][i] = true;
             } else {
                 break;
             }
         }
-        for (int i = 1; i <= sLen; ++i) {
-            for (int j = 1; j <= pLen; ++j) {
-                if (p.charAt(j - 1) == '*') { // * 可以匹配当前位或不匹配当前位
-                    dp[i][j] = dp[i][j - 1] || dp[i - 1][j];
-                } else if (p.charAt(j - 1) == '?' || s.charAt(i - 1) == p.charAt(j - 1)) {
+        for (int i = 1; i <= sLen; i++) {
+            for (int j = 1; j <= pLen; j++) {
+                // 如果当前位置j是'*'，可以选择用还是不用
+                // 如果不用，则判断p串0~j-1能否匹配s的0~i
+                // 如果用，则可能'*'不仅匹配了当前位，还匹配了前面的位
+                // 第二个条件指j位置的'*'从i才开始匹配，第三个条件则指j位置的'*'从i之前就已经被使用了
+                // 其中第三个条件覆盖了第二个条件，第二个条件其实可以省略
+                if (p.charAt(j - 1) == '*') {
+                    dp[i][j] = dp[i][j - 1] || dp[i - 1][j - 1] || dp[i - 1][j];
+                } else if (p.charAt(j - 1) == '?' || p.charAt(j - 1) == s.charAt(i - 1)) {
                     dp[i][j] = dp[i - 1][j - 1];
                 }
             }
