@@ -19,31 +19,25 @@
 //解释: nums = [3,1,5,8] --> [3,5,8] -->   [3,8]   -->  [8]  --> []
 //     coins =  3*1*5      +  3*5*8    +  1*3*8      + 1*8*1   = 167
 // 
-// Related Topics 分治算法 动态规划
+// Related Topics 分治算法 动态规划 
+// 👍 562 👎 0
 
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-
-    /**
-     * 思路:dp
-     * 把数组的两头各添加一个1，然后利用dp数组，dp[i][j]表示在开区间（i,j）内所有气球全部戳爆后的最大收益；
-     * 设在该区间内最后一个被戳爆的气球是k，则在该开区间内遍历k，找到一个使最终收益最大的位置。
-     * 转移方程：dp[i][j]=max(dp[i][j], dp[i][k]+dp[k][j]+newnums[i]*newnums[j]*newnums[k])
-     * @param nums
-     * @return
-     */
+    // 转移方程：戳破左边的 + 戳破右边的 + 当前的(nums[left] * nums[i] * nums[right])
     public int maxCoins(int[] nums) {
         int numsLen = nums.length;
+        // -1 位置和 numLen 位置可以看做是 1，构造新数组
         int newNumsLen = numsLen + 2;
         int[] newNums = new int[numsLen + 2];
         newNums[0] = newNums[newNumsLen - 1] = 1;
         for (int i = 1; i < newNumsLen - 1; i++) {
             newNums[i] = nums[i - 1];
         }
-        int[][] dp = new int[newNumsLen][newNumsLen];
+        int[][] dp = new int[newNumsLen][newNumsLen]; // dp[i][j]表示戳破i~j中间的所有气球，不包括i和j
         for (int hop = 2; hop < newNumsLen; hop++) {
-            for (int i = 0; i < newNumsLen - hop; i++) {
+            for (int i = 0; i < newNumsLen - hop; i++) { // 沿着对角线方向一层一层更新 dp 数组
                 int j = i + hop;
                 for (int k = i + 1; k < j; k++) {
                     dp[i][j] = Math.max(dp[i][j], dp[i][k] + dp[k][j] + newNums[i] * newNums[j] * newNums[k]);
