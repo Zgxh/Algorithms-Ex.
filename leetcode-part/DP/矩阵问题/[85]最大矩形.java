@@ -19,41 +19,42 @@ import java.util.Arrays;
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 
-    /**
-     * 思路1：DP + 遍历
-     * dp[][] 数组，存放每行以i结尾的该行内向左能达到的最大长度。
-     * 对每行进行遍历，并更新当前行内，以i为结尾的点向左能到达的最大长度。
-     * 对该行进行遍历时，向上扩展矩形，并更新最大矩形面积。
-     *
-     * 因为对每个点都要向上走一遍，所以时间复杂度 O(iLen^2 * jLen),空间复杂度 O(iLen * jLen)
-     */
-    public int maximalRectangle(char[][] matrix) {
-        if (matrix.length == 0) return 0;
-        int maxarea = 0;
-        int[][] dp = new int[matrix.length][matrix[0].length];
-
-        for(int i = 0; i < matrix.length; i++){
-            for(int j = 0; j < matrix[0].length; j++){
-                if (matrix[i][j] == '1'){
-
-                    // compute the maximum width and update dp with it
-                    dp[i][j] = j == 0? 1 : dp[i][j-1] + 1;
-
-                    int width = dp[i][j];
-
-                    // compute the maximum area rectangle with a lower right corner at [i, j]
-                    for(int k = i; k >= 0; k--){
-                        width = Math.min(width, dp[k][j]);
-                        maxarea = Math.max(maxarea, width * (i - k + 1));
-                    }
-                }
-            }
-        } return maxarea;
-    }
+//    /**
+////     * 思路1：DP + 遍历
+////     * dp[][] 数组，存放每行以i结尾的该行内向左能达到的最大长度。
+////     * 对每行进行遍历，并更新当前行内，以i为结尾的点向左能到达的最大长度。
+////     * 对该行进行遍历时，向上扩展矩形，并更新最大矩形面积。
+////     *
+////     * 因为对每个点都要向上走一遍，所以时间复杂度 O(iLen^2 * jLen),空间复杂度 O(iLen * jLen)
+////     */
+////    public int maximalRectangle(char[][] matrix) {
+////        if (matrix.length == 0) return 0;
+////        int maxarea = 0;
+////        int[][] dp = new int[matrix.length][matrix[0].length];
+////
+////        for(int i = 0; i < matrix.length; i++){
+////            for(int j = 0; j < matrix[0].length; j++){
+////                if (matrix[i][j] == '1'){
+////
+////                    // compute the maximum width and update dp with it
+////                    dp[i][j] = j == 0? 1 : dp[i][j-1] + 1;
+////
+////                    int width = dp[i][j];
+////
+////                    // compute the maximum area rectangle with a lower right corner at [i, j]
+////                    for(int k = i; k >= 0; k--){
+////                        width = Math.min(width, dp[k][j]);
+////                        maxarea = Math.max(maxarea, width * (i - k + 1));
+////                    }
+////                }
+////            }
+////        } return maxarea;
+////    }
 
     /**
      * 思路2：DP
-     * 维护dp[]数组，并按行更新。dp维护内容：
+     * 维护dp[]数组，并按行更新，这样就把3维dp数组优化为2维dp。
+     * height[], left[], right[] 共同组成dp[][]数组。dp维护内容：
      * 第i个点向上所能达到的最大高度height、以该高度向左右最多能到达的位置left、right
      * 在按行更新的过程中，height遇到位置为0的点会变为0，同时left和right会往内收缩
      *
