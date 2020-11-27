@@ -23,6 +23,7 @@ class Solution {
 
     /**
      * 思路1：dp
+     * 时间复杂度：O(n^2)，空间 O(n)
      *
      * @param nums
      * @return
@@ -48,6 +49,42 @@ class Solution {
         return maxLength;
     }
 
+    /**
+     * 思路2: DP。 加入二分优化
+     * dp[] 数组： i 位置记录最长上升子序列长度为 i-1 的最后一个元素的值。
+     * 时间复杂度：O(n log n)，空间复杂度：O(n)
+     */
+    public int lengthOfLIS(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int len = nums.length;
+        int[] lastNum = new int[len]; // i 位置记录 maxlength=i-1 的递增子序列的最后一个元素的值。lastNum[]一定是递增的
+        lastNum[0] = nums[0];
+        int maxLength = 1;
+        // 遍历 nums 数组，对于 nums[i]:
+        // 1. 如果 nums[i] 比已记录的最长上升子序列的最后一个元素还大，则 maxLen++，并更新 maxLen 对应的位置的元素值
+        // 2. 否则，在 dp 数组中二分查找第一个大于 nums[i] 的元素，并替换掉。此时 maxLen 不会更新。
+        // 这个过程相当于在遍历的过程中不断用符合条件的更小的值来替换原有子序列的对应位置
+        for (int i = 1; i < len; i++) {
+            if (nums[i] > lastNum[maxLength - 1]) { // 当出现了比 maxLength 处更大的数，则序列增长
+                maxLength++;
+                lastNum[maxLength - 1] = nums[i];
+            } else { // 当小于等于的时候，则在前面 maxLength-1 个位置中找到第一个大于等于 nums[i] 的数，然后替换为 nums[i]。此时 lastNum 数组长度不会增长，只是更新 lastNum 数组，以应对后面有更小元素对应更长递增序列的情况。
+                int left = 0, right = maxLength - 1;
+                while (left < right) {
+                    int mid = left + ((right - left) >> 1);
+                    if (lastNum[mid] >= nums[i]) {
+                        right = mid;
+                    } else {
+                        left = mid + 1;
+                    }
+                }
+                lastNum[left] = nums[i];
+            }
+        }
 
+        return maxLength;
+    }
 }
 //leetcode submit region end(Prohibit modification and deletion)
