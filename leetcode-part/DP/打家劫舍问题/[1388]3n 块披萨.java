@@ -59,6 +59,7 @@
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
+
     // 此问题限制了需要获得的披萨数，相当于打家劫舍2的升级版
     // DP 问题。用到了2维DP数组，同时记录当前考虑过的数组长度，与当前已获得的披萨数。
     // 环形数组问题，开头元素和结尾元素只能使用一个，分为2中情况考虑：0~len-2, 1~len-1.
@@ -77,10 +78,12 @@ class Solution {
         }
         int len = right - left + 1;
         int choose = (len + 1) / 3; // 要获得的披萨数
-        int[][] dp = new int[len + 1][choose + 1];
+        int[][] dp = new int[len + 1][choose + 1]; // dp[i][j]: 在前i块披萨中拿到了j块时的最大披萨大小
         for (int i = 1; i <= len; i++) {
             for (int j = 1; j <= choose; j++) {
-                dp[i][j] = Math.max(dp[i - 1][j], (i - 2 >= 0 ? dp[i - 2][j - 1] : 0) + slices[i - 1 + left]);
+                // 当前块不拿，则直接借用上一块的状态；
+                // 当前块拿，则使用隔一块的状态 + 当前块的大小
+                dp[i][j] = Math.max(dp[i - 1][j], (i - 2 >= 0 ? dp[i - 2][j - 1] : 0) + slices[left + i - 1]);
             }
         }
 

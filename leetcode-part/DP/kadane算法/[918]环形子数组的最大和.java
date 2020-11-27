@@ -73,7 +73,9 @@ class Solution {
         for (int num : A) {
             sum += num;
         }
-        // 利用 kadane 算法计算单区间的最大连续和。其中双区间的情况转化为单区间的情况。
+        // 利用 kadane 算法计算单区间的最大连续和。
+        // 其中双区间的情况转化为单区间的情况：
+        // 先把每个元素变成负的，然后计算最大连续和，对应正数时就是最小连续和；然后 +sum 代表剩余的首尾两段相连是最大连续和
         int single = kadane(A, 0, len - 1, 1);
         int double1 = sum + kadane(A, 0, len - 2, -1);
         int double2 = sum + kadane(A, 1, len - 1, -1);
