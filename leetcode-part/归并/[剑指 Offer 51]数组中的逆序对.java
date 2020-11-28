@@ -48,8 +48,9 @@ class Solution {
     private void merge(int left, int right, int mid) {
         int i = left, j = mid + 1, k = left;
         while (i <= mid && j <= right) {
-            // 当左半区间第i个数小于右半区间的第j数时，产生逆序对，个数为右半区间j前面的所有数字的个数
-            if (nums[i] <= nums[j]) { // 这里必须取等
+            // 逆序对：左边的值大于右边的值
+            // 右半区间 mid+1~j-1 之间的值都大于左半区间的第 i 个数
+            if (nums[i] <= nums[j]) { // 这里必须取等，遇到相等的值先加左半区间的数
                 temp[k++] = nums[i++];
                 result += j - (mid + 1);
             } else {

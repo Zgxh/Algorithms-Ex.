@@ -31,11 +31,13 @@ import java.util.List;
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
+
     // 归并排序的思路：求逆序对。
-    // 在排序的过程中，同时记录对应元素在原nums数组中的index，这样可以定位到原来元素的位置，从而对result数组进行修改。
+    // 最终结果应该对应到数组元素的初始 index，所以：
+    // 在排序的过程中，同时记录对应元素在原nums数组中的index，
     private int[] nums;
-    private int[] temp; // 辅助排序
     private int[] index; // 存放排序后的元素的初始index
+    private int[] temp; // 辅助排序
     private int[] tempIndex; // index 的辅助
     private int[] result;
 

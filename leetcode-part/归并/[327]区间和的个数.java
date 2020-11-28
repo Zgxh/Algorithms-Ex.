@@ -19,7 +19,6 @@ class Solution {
 
     /**
      * O(N log N) 归并排序法。
-     * 具体思路看题解 1.
      */
     public int countRangeSum(int[] nums, int lower, int upper) {
         int len = nums.length;
@@ -43,17 +42,17 @@ class Solution {
             // 统计位于 lower 与 upper 之间的下标对的数量
             // i 为左半区间的指针，遍历归并的左半区间每个位置
             int i = left;
-            // l 和 r 为右半区间的指针，寻找位于 lower 和 upper 之间的序列
+            // 固定左半区间指针，移动右半区间指针，寻找位于 lower 和 upper 之间的序列 O(n)
             int l = mid + 1;
             int r = mid + 1;
             while (i <= mid) {
-                while (l <= right && sum[l] - sum[i] < lower) { // 找到第一个大于 lower 的 l 位置
+                while (l <= right && sum[l] - sum[i] < lower) { // 找到第一个大于等于 lower 的 l 位置
                     l++;
                 }
-                while (r <= right && sum[r] - sum[i] <= upper) { // 找到第一个小于 upper 的 r 位置
+                while (r <= right && sum[r] - sum[i] <= upper) { // 找到第一个小于等于 upper 的 r 位置
                     r++;
                 }
-                result += r - l; // 包括 l，但不包括 r
+                result += r - l; // (r-1) - l + 1
                 i++;
             }
 
