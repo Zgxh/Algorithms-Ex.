@@ -36,8 +36,6 @@
 // 👍 137 👎 0
 
 
-import java.util.*;
-
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 
