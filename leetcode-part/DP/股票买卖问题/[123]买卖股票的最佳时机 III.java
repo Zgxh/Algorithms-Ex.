@@ -58,5 +58,24 @@ class Solution {
 
         return result;
     }
+
+    // 法2：采用与最多k次卖出相同的计算方法
+    public int maxProfit(int[] prices) {
+        int len = prices.length;
+        // 第一维：天数；第二维：买入卖出状态，0代表不持有，1代表持有；第三维：已经完成的交易次数
+        int[][][] dp = new int[len][2][3]; // 在对应状态下的最大利润
+        // 初始化：初始化第一次买入时的状态
+        dp[0][1][0] = -prices[0];
+        dp[0][1][1] = -prices[0];
+        dp[0][1][2] = -prices[0];
+        for (int j = 1; j <= 2; j++) {
+            for (int i = 1; i < len; i++) {
+                dp[i][1][j - 1] = Math.max(dp[i - 1][1][j - 1], dp[i - 1][0][j - 1] - prices[i]);
+                dp[i][0][j] = Math.max(dp[i - 1][0][j], dp[i - 1][1][j - 1] + prices[i]);
+            }
+        }
+
+        return dp[len - 1][0][2];
+    }
 }
 //leetcode submit region end(Prohibit modification and deletion)
