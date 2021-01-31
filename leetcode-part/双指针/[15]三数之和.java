@@ -26,24 +26,23 @@ import java.util.List;
 class Solution {
 
     /**
-     * 思路：双指针。
-     * 固定a，双指针为b和c，控制c的大小来移动右指针。
-     * @param nums
-     * @return
+     * 排序 + 双指针。
+     * 固定a，双指针法确定 b和 c
      */
     public List<List<Integer>> threeSum(int[] nums) {
-        Arrays.sort(nums); // 先排序，防止重复结果
+        Arrays.sort(nums); // 先排序：为了利用双指针法
         List<List<Integer>> result = new ArrayList<>();
         for (int a = 0; a < nums.length - 2; a++) {
             if (a > 0 && nums[a] == nums[a - 1]) { // 防止重复
                 continue;
             }
+            // 对 b,c 的确定采用双指针法
             int c = nums.length - 1;
             for (int b = a + 1; b < c; b++) {
                 if (b >= a + 2 && nums[b] == nums[b - 1]) { // 防止重复
                     continue;
                 }
-                while (c > b && nums[a] + nums[b] > -nums[c]) {
+                while (b < c && nums[a] + nums[b] > -nums[c]) { // b < c 是必要的
                     c--;
                 }
                 if (b == c) { // 再次判断while的退出条件，防止b==c但满足下一个if

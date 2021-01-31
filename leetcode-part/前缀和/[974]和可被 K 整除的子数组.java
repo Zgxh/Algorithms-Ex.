@@ -20,7 +20,8 @@
 // -10000 <= A[i] <= 10000 
 // 2 <= K <= 10000 
 // 
-// Related Topics 数组 哈希表
+// Related Topics 数组 哈希表 
+// 👍 238 👎 0
 
 
 import java.util.HashMap;
@@ -29,24 +30,20 @@ import java.util.Map;
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 
-    /**
-     * 思路：利用前缀和。sum[0~i]-sum[0~j]即为 sum[j~i]，
-     * 若sum[0~i] 与 sum[0~j]对 K 的取余相同，则 sum[j~i] 对 K 取余即为0.
-     * @param A
-     * @param K
-     * @return
-     */
+    // 前缀和 + map : 技巧是把余数当做键
     public int subarraysDivByK(int[] A, int K) {
-        Map<Integer, Integer> map = new HashMap<>();
+        int len = A.length;
+        int prefixSum = 0;
+        // 把前缀和对k取余，如果余数相同，则两个index之间的和肯定能被k整除
+        Map<Integer, Integer> map = new HashMap(); // sum -> count
         map.put(0, 1);
-        int sum = 0, result = 0;
-
-        for (int num : A) {
-            sum += num;
-            int remainder = (sum % K + K) % K;
-            int numOfSameRemainder = map.getOrDefault(remainder, 0);
-            result += numOfSameRemainder;
-            map.put(remainder, numOfSameRemainder + 1);
+        int result = 0;
+        for (int i = 0; i < len; i++) {
+            prefixSum += A[i];
+            int modulus = (prefixSum % K + K) % K; // 为了避免被除数是负数的情况
+            int count = map.getOrDefault(modulus, 0);
+            result += count;
+            map.put(modulus, count + 1);
         }
 
         return result;

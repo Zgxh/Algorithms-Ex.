@@ -1,6 +1,6 @@
-/*
-*给定一个int型整数，返回不小于它本身的最小的2的平方数。
-*/
+/**
+ * 给定一个int型整数，返回不小于它本身的最小的2的平方数。
+ */
 
 public class Solve2Power {
     public static int solve(int input) {
