@@ -24,6 +24,8 @@ class Solution {
 
     /**
      * 思路：经典的回溯题目。
+     *
+     * 时间复杂度：O(n*n!)：一共 n! 种排列，每种排列内部有 n 个结点
      */
 
     private List<List<Integer>> result;
