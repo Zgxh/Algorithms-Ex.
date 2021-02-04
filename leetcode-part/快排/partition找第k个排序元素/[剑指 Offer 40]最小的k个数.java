@@ -48,7 +48,9 @@ class Solution {
     //     return result;
     // }
 
-    // 方法2：利用快排的partition操作
+    /**
+     * 方法2：利用快排的partition操作
+     */
     private int[] arr;
 
     public int[] getLeastNumbers(int[] arr, int k) {
@@ -68,7 +70,8 @@ class Solution {
         return Arrays.copyOfRange(arr, 0, k);
     }
 
-    private int partition(int left, int right) { // 返回partition后的index
+    // 返回partition后的index
+    private int partition(int left, int right) {
         int target = arr[right];
         while (left < right) {
             while (left < right && arr[left] < target) {
