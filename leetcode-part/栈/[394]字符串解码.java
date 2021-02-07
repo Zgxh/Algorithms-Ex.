@@ -21,14 +21,7 @@ import java.util.LinkedList;
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 
-    /**
-     * 思路：栈的应用。
-     * 每次遇到不是']'的元素就直接入栈；
-     * 遇到']'就逐渐出栈：把一层“[]”包裹起来的字符进行拼接，然后再重复拼接iteration次，拼接完再次入栈。
-     *
-     * @param s
-     * @return
-     */
+    // 栈
     public String decodeString(String s) {
         LinkedList<String> stack = new LinkedList<>();
         String temp;
@@ -36,17 +29,20 @@ class Solution {
             if (ch != ']') {
                 stack.push(ch + "");
             } else {
+                // 确定重复的子序列
                 StringBuilder single = new StringBuilder();
-                while (!(temp = stack.pop()).equals("[")) { // 头插
+                while (!(temp = stack.pop()).equals("[")) {
                     single.insert(0, temp);
                 }
-                int iteration = Integer.parseInt(stack.pop());
-                int j = 1;
-                while (!stack.isEmpty() && stack.getFirst().matches("[0-9]")) { // 防止重复次数不是个位数
+                // 确定重复次数
+                int j = 0;
+                int iteration = 0;
+                while (!stack.isEmpty() && stack.peek().matches("[0-9]")) {
                     iteration += Integer.parseInt(stack.pop()) * Math.pow(10, j++);
                 }
+                // 求得重复子串
                 StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < iteration; i++) { // [] 内的字符串要重复iteration次
+                for (int i = 0; i < iteration; i++) {
                     sb.append(single);
                 }
                 stack.push(sb.toString());
@@ -59,6 +55,5 @@ class Solution {
 
         return result.toString();
     }
-
 }
 //leetcode submit region end(Prohibit modification and deletion)
