@@ -60,9 +60,12 @@ class Solution {
         }
         int rootValue = postorder[postorderRootIndex];
         TreeNode root = new TreeNode(rootValue);
+        // 从中序遍历序列中找到子树的根，并以此划分左右子树
         int inorderRootIndex = findInorderRoot(left, right, rootValue);
         postorderRootIndex--;
+        // 递归构造右子树
         root.right = buildTreeHelp(inorderRootIndex + 1, right);
+        // 递归构造左子树
         root.left = buildTreeHelp(left, inorderRootIndex - 1);
 
         return root;

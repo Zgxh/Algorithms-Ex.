@@ -56,14 +56,20 @@ class Solution {
          }
          int rootValue = preorder[preorderRootIndex];
          TreeNode root = new TreeNode(rootValue);
+         // 在中序序列中找该子树的根，并以此划分左右子树
          int inorderRootIndex = findInorderRoot(left, right, rootValue);
          preorderRootIndex++;
+         // 递归构建左子树
          root.left = buildTreeHelp(left, inorderRootIndex - 1);
+         // 递归构建右子树
          root.right = buildTreeHelp(inorderRootIndex + 1, right);
 
          return root;
      }
 
+    /**
+     * 从中序序列中
+     */
      private int findInorderRoot(int left, int right, int target) {
          while (left < right) {
              if (target == inorder[left]) {
