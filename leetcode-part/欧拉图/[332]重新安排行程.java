@@ -48,6 +48,7 @@ class Solution {
     private List<String> itinerary = new LinkedList<>();
 
     public List<String> findItinerary(List<List<String>> tickets) {
+        // 建图
         for (List<String> ticket : tickets) {
             String src = ticket.get(0), dst = ticket.get(1);
             if (!map.containsKey(src)) {
@@ -55,12 +56,14 @@ class Solution {
             }
             map.get(src).offer(dst);
         }
+        // hierholzer 算法寻找欧拉路径
         dfs("JFK");
         Collections.reverse(itinerary);
         return itinerary;
     }
 
     public void dfs(String curr) {
+        // 对于所有的邻接顶点，先标记为已访问，然后递归遍历邻接顶点
         while (map.containsKey(curr) && map.get(curr).size() > 0) {
             String tmp = map.get(curr).poll();
             dfs(tmp);
