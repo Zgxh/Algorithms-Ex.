@@ -23,16 +23,19 @@
 class Solution {
     // 迭代写法
     public ListNode reverseList(ListNode head) {
-        ListNode dummy = new ListNode(-1);
-        while (head != null) {
-            ListNode temp = dummy.next;
-            dummy.next = head;
-            ListNode pointer = head.next;
-            dummy.next.next = temp;
-            head = pointer;
+        if (head == null) {
+            return null;
+        }
+        ListNode result = head;
+        ListNode pointer = head;
+        while (pointer.next != null) {
+            ListNode temp = pointer.next;
+            pointer.next = pointer.next.next;
+            temp.next = result;
+            result = temp;
         }
 
-        return dummy.next;
+        return result;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
