@@ -68,7 +68,7 @@ import java.util.List;
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 
-    // 并查集
+    // 并查集 + kruskal 最小生成树算法
     public int minCostConnectPoints(int[][] points) {
         int len = points.length;
         DisjointSet disjointSet = new DisjointSet(len);
@@ -105,9 +105,9 @@ class Solution {
 }
 
 class Edge {
-    int i;
-    int j;
-    int len;
+    int i; // 顶点1
+    int j; // 顶点2
+    int len; // 边长
 
     Edge(int i, int j, int len) {
         this.i = i;

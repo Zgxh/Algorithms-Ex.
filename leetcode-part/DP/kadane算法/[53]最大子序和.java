@@ -16,19 +16,35 @@
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-    // dp 问题的 kadane 算法。当前状态只依赖前一个状态。
-    // dp[i] = nums[i] + Math.max(dp[i - 1], 0)
+    // // dp 问题。当前状态只依赖前一个状态。
+    // // dp[i] = nums[i] + Math.max(dp[i - 1], 0)
+
+    // public int maxSubArray(int[] nums) {
+    //     int len = nums.length;
+    //     int[] dp = new int[len]; // 以 nums[i] 为结尾的子数组的最大和
+    //     dp[0] = nums[0];
+    //     int max = dp[0];
+    //     for (int i = 1; i < len; i++) {
+    //         dp[i] = nums[i] + Math.max(dp[i - 1], 0);
+    //         max = Math.max(dp[i], max);
+    //     }
+
+    //     return max;
+    // }
+
+    // 可以优化为 O(1) 空间复杂度的
     public int maxSubArray(int[] nums) {
-        int len = nums.length;
-        int[] dp = new int[len]; // 以 nums[i] 为结尾的子数组的最大和
-        dp[0] = nums[0];
-        int max = dp[0];
-        for (int i = 1; i < len; i++) {
-            dp[i] = nums[i] + Math.max(dp[i - 1], 0);
-            max = Math.max(dp[i], max);
+        int result = Integer.MIN_VALUE;
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+            result = Math.max(result, sum);
+            if (sum < 0) {
+                sum = 0;
+            }
         }
 
-        return max;
+        return result;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)

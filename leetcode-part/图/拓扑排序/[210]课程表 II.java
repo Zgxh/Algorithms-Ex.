@@ -54,7 +54,7 @@ class Solution {
      * 最后遍历完所有约束条件后，把没有约束条件的结点直接追加到数组末尾即可。
      */
 
-    private Map<Integer, List<Integer>> map;
+    private Map<Integer, List<Integer>> map; // 课程对应的前置条件
     private int[] result;
     private int[] status; // 每个课程的状态, 0:未访问，1:正在访问, 2：已访问完
     private int index = 0; // result 数组的下标
